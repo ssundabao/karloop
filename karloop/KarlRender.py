@@ -3,7 +3,7 @@
 __author__ = 'karl'
 
 import datetime
-
+import re
 from karloop.base_configure import base_settings
 
 
@@ -33,9 +33,25 @@ class Render(object):
             header = self.header % (200, "OK", now_time)
             data = header + template_data
             return data
-        value_keys = value_dict.keys()
-        for key in value_keys:
-            template_data = template_data.replace("{{"+key+"}}", value_dict[key])
+        param_list = re.findall(r"\{\{(.+?)\}\}", template_data)
+        for param in param_list:
+            if "." in param:
+                param_object = param.split(".")[0]
+                param_param = param.split(".")[1]
+                object_param = value_dict[param_object]
+                template_data = template_data.replace("{{%s}}" % param, str(eval("object_param."+param_param)))
+            elif "[\"" in param or "['" in param:
+                param_object = param.split("[")[0]
+                param_key = "[" + param.split("[")[1]
+                param_object = str(value_dict[param_object])
+                param_value = param_object + param_key
+                template_data = template_data.replace("{{%s}}" % param, eval(param_value))
+            elif "[" in param:
+                param_object = param.split("[")[0]
+                param_value = param.replace(param_object, str(value_dict[param_object]))
+                template_data = template_data.replace("{{%s}}" % param, eval(param_value))
+            else:
+                template_data = template_data.replace("{{%s}}" % param, value_dict[param])
         header = self.header % (200, "OK", base_settings["host"], now_time)
         data = header + template_data
         return data
