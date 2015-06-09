@@ -23,7 +23,7 @@ class Render(object):
         now = datetime.datetime.now()
         now_time = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
         try:
-            f = open(self.template)
+            f = open(self.template, "rb")
             template_data = f.read()
             f.close()
         except IOError:
