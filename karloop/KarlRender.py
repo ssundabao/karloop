@@ -27,10 +27,10 @@ class Render(object):
             template_data = f.read()
             f.close()
         except IOError:
-            header = self.header % (500, "template error", now_time)
+            header = self.header % (500, "template error", base_settings["host"], now_time)
             return header
         if not value_dict:
-            header = self.header % (200, "OK", now_time)
+            header = self.header % (200, "OK", base_settings["host"], now_time)
             data = header + template_data
             return data
         param_list = re.findall(r"\{\{(.+?)\}\}", template_data)
