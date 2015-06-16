@@ -13,7 +13,8 @@ class BaseResponse(object):
     # init method
     def __init__(self, data, settings):
         self.des = DES()
-        self.des.input_key('123456789')
+        cookie_code = base_settings["cookie_code"]
+        self.des.input_key(cookie_code)
         self.response_head = "HTTP/1.1 %s %s\r\n" \
                              "Host: %s\r\n" \
                              "Date: %s\r\n" \

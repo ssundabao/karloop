@@ -42,6 +42,8 @@ class BaseApplication(object):
             base_settings["ip"] = self.ip
         else:
             self.__set_ip()
+        if settings and ("cookie_code" in settings.keys()):
+            base_settings["cookie_code"] = settings["cookie_code"]
 
     # set IP address
     def __set_ip(self):
@@ -53,13 +55,34 @@ class BaseApplication(object):
             base_settings["ip"] = self.ip
         elif platform_system.lower() == "linux":
             import fcntl
+            self.ip = base_settings["ip"]
             sock_f = self.socket_server.fileno()
             socket_io_address = 0x8915
-            if_req = struct.pack('16sH14s', "eth0", socket.AF_INET, '\x00'*14)
-            res = fcntl.ioctl(sock_f, socket_io_address, if_req)
-            ip = struct.unpack('16sH2x4s8x', res)[2]
-            self.ip = socket.inet_ntoa(ip)
-            base_settings["ip"] = self.ip
+            for i in xrange(10):
+                eth = "eth%d" % i
+                try:
+                    if_req = struct.pack('16sH14s', eth, socket.AF_INET, '\x00'*14)
+                    res = fcntl.ioctl(sock_f, socket_io_address, if_req)
+                    ip = struct.unpack('16sH2x4s8x', res)[2]
+                    self.ip = socket.inet_ntoa(ip)
+                    base_settings["ip"] = self.ip
+                    break
+                except Exception, e:
+                    print e
+                    print eth, "error"
+            if self.ip == base_settings["ip"]:
+                for i in xrange(10):
+                    eth = "wlan%d" % i
+                    try:
+                        if_req = struct.pack('16sH14s', eth, socket.AF_INET, '\x00'*14)
+                        res = fcntl.ioctl(sock_f, socket_io_address, if_req)
+                        ip = struct.unpack('16sH2x4s8x', res)[2]
+                        self.ip = socket.inet_ntoa(ip)
+                        base_settings["ip"] = self.ip
+                        break
+                    except Exception, e:
+                        print e
+                        print eth, "error"
         else:
             host_name = socket.gethostname()
             self.ip = socket.gethostbyname_ex(host_name)[-1][-1]
