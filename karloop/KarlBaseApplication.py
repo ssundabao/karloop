@@ -69,7 +69,6 @@ class BaseApplication(object):
                     break
                 except Exception, e:
                     print e
-                    print eth, "error"
             if self.ip == base_settings["ip"]:
                 for i in xrange(10):
                     eth = "wlan%d" % i
@@ -82,7 +81,6 @@ class BaseApplication(object):
                         break
                     except Exception, e:
                         print e
-                        print eth, "error"
         else:
             host_name = socket.gethostname()
             self.ip = socket.gethostbyname_ex(host_name)[-1][-1]
