@@ -18,6 +18,7 @@ class BaseResponse(object):
         self.response_head = "HTTP/1.1 %s %s\r\n" \
                              "Host: %s\r\n" \
                              "Date: %s\r\n" \
+                             "Web-Server: Tornado\r\n" \
                              "Connection: keep-alive\r\n" \
                              "Content-Type: text/html;charset=UTF-8\r\n" \
                              "Set-Cookie: server=run; path=/\r\n"
@@ -95,9 +96,14 @@ class BaseResponse(object):
         response_data += body
         return response_data
 
-    # set head
-    def set_head(self, value):
+    # set header
+    def set_header(self, value):
         self.response_head = self.response_head.replace("text/html;charset=UTF-8", value)
+
+    # add header
+    def add_header(self, key, value):
+        header_add = "%s: %s\r\n" % (key, value)
+        self.response_head = self.response_head.replace("Web-Server: Tornado\r\n", "Web-Server: Tornado\r\n"+header_add)
 
     # render method
     def render(self, template_path, parameter_dit=None):
