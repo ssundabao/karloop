@@ -180,9 +180,9 @@ class ParseData(object):
             return response
         handler = self.handlers[url]
         init_handler = handler(data, self.settings)
-        expression = "init_handler." + method + "()"
         try:
-            result = eval(expression)
+            function = getattr(init_handler, method)
+            result = function()
         except Exception, e:
             print e
             response = self.headers % (500, '"server error"', now_time, base_settings["host"])
