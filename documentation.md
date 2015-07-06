@@ -31,12 +31,6 @@ use this method to clear cookie
 ## get_argument
 ## response
 # settings
-## ip
-## static files' path
-## templates' path
-## cookie security code
-# application
-## handlers
 configure the handlers use a dictionary settings:  
 
     import os
@@ -49,5 +43,21 @@ configure the handlers use a dictionary settings:
     }
     
 move the static files (as *.css *.js *.jpg etc) to the folder named static.  
-move the html template files to the folder named template.  
+move the html template files to the folder named template.
+# application
+create web application  
+
+    KarlBaseApplication.BaseApplication
+
+## handlers
+  
+    handlers = {
+        "/hello": HelloHandler
+    }
+  
 ## listen
+    
+    application = MyApplication()
+    application.listen(8888)
+
+create an application and listen 8888 port.
