@@ -1,19 +1,28 @@
 # headers
 operate http headers  
 ## set_header
-KarlBaseResponse.BaseResponse.set_header(value)  
+    KarlBaseResponse.BaseResponse.set_header(value)  
 use this method to set http header  
 ## add_header
-KarlBaseResponse.BaseResponse.add_header(value)  
+    KarlBaseResponse.BaseResponse.add_header(value)  
 use this method to add http header  
 # cookies
 operate cookie
 ## set_cookie
-
+    KarlBaseResponse.BaseResponse.set_cookie(key, value)
+use this method to set cookie
 ## get_cookie
+    KarlBaseResponse.BaseResponse.get_cookie(key)
+use this method to get cookie
 ## set_security_cookie
+    KarlBaseResponse.BaseResponse.set_security_cookie(key, value)
+use this method to set security cookie
 ## get_security_cookie
+    KarlBaseResponse.BaseResponse.get_security_cookie(key)
+use this method to get security cookie
 ## clear_cookie
+    KarlBaseResponse.BaseResponse.clear_cookie(key)
+use this method to clear cookie
 # templates
 ## render
 # handler
@@ -41,6 +50,4 @@ configure the handlers use a dictionary settings:
     
 move the static files (as *.css *.js *.jpg etc) to the folder named static.  
 move the html template files to the folder named template.  
-
-  
 ## listen
