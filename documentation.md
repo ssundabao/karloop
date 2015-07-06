@@ -24,12 +24,16 @@ use this method to get security cookie
     KarlBaseResponse.BaseResponse.clear_cookie(key)
 use this method to clear cookie
 # templates
+pass object, list, dict and string.
 ## render
+    KarlBaseResponse.BaseResponse.render(template, dict)
+pass a dict the template, the value of the dict can be dict, list, string or object.
 # handler
-## get
-## post
 ## get_argument
+    KarlBaseResponse.BaseResponse.get_argument(key, default)
+get the key's value.
 ## response
+response to web browser
 # settings
 configure the handlers use a dictionary settings:  
 

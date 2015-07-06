@@ -56,9 +56,9 @@ class BaseResponse(object):
         return self.des.decode(cookie)
 
     # get the argument
-    def get_argument(self, key):
+    def get_argument(self, key, default):
         if key not in self.data["parameter"]:
-            return ""
+            return default
         return self.data["parameter"][key]
 
     # get method
