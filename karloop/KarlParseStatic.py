@@ -60,7 +60,8 @@ class ParseStatic(object):
         now = datetime.datetime.now()
         now_time = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
         security = DES()
-        security.input_key('123456789')
+        cookie_code = base_settings["cookie_code"]
+        security.input_key(cookie_code)
         element_tag = security.encode(file_url)
         content_type = self.content_type[file_extension] if (file_extension in self.content_type) else ""
         content_length = sys.getsizeof(data)
