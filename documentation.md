@@ -42,7 +42,7 @@ configure the handlers use a dictionary settings:
     settings = {
         "ip": 192.168.1.108,  # your host's ip
         "static": os.path.join(os.path.dirname(__file__), "static/"),  # static files folder
-        "template": os.path.join(os.path.dirname(__file__), "template/"),  #
+        "template": os.path.join(os.path.dirname(__file__), "template/"),  # html template
         "cookie_code": "this_is_an_example"
     }
     
