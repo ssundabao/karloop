@@ -3,10 +3,8 @@
 __author__ = 'karl'
 
 import socket
-import struct
 import sys
 import datetime
-import platform
 import threading
 import functools
 
@@ -39,52 +37,11 @@ class BaseApplication(object):
         self.port = base_settings["port"]
         if settings and ("ip" in settings.keys()):
             self.ip = settings["ip"]
-            base_settings["ip"] = self.ip
         else:
-            self.__set_ip()
+            self.ip = ''
+        base_settings["ip"] = self.ip
         if settings and ("cookie_code" in settings.keys()):
             base_settings["cookie_code"] = settings["cookie_code"]
-
-    # set IP address
-    def __set_ip(self):
-        platform_system = platform.system()
-        if platform_system.lower() == "windows":
-            host_name = socket.gethostname()
-            name = socket.getfqdn(host_name)
-            self.ip = socket.gethostbyname_ex(name)[-1][-1]
-            base_settings["ip"] = self.ip
-        elif platform_system.lower() == "linux":
-            import fcntl
-            self.ip = base_settings["ip"]
-            sock_f = self.socket_server.fileno()
-            socket_io_address = 0x8915
-            for i in xrange(10):
-                eth = "eth%d" % i
-                try:
-                    if_req = struct.pack('16sH14s', eth, socket.AF_INET, '\x00'*14)
-                    res = fcntl.ioctl(sock_f, socket_io_address, if_req)
-                    ip = struct.unpack('16sH2x4s8x', res)[2]
-                    self.ip = socket.inet_ntoa(ip)
-                    base_settings["ip"] = self.ip
-                    break
-                except Exception, e:
-                    print e
-            if self.ip == base_settings["ip"]:
-                for i in xrange(10):
-                    eth = "wlan%d" % i
-                    try:
-                        if_req = struct.pack('16sH14s', eth, socket.AF_INET, '\x00'*14)
-                        res = fcntl.ioctl(sock_f, socket_io_address, if_req)
-                        ip = struct.unpack('16sH2x4s8x', res)[2]
-                        self.ip = socket.inet_ntoa(ip)
-                        base_settings["ip"] = self.ip
-                        break
-                    except Exception, e:
-                        print e
-        else:
-            host_name = socket.gethostname()
-            self.ip = socket.gethostbyname_ex(host_name)[-1][-1]
-            base_settings["ip"] = self.ip
 
     # listen the port and set max request number
     def listen(self, port=None):
