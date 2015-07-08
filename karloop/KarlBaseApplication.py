@@ -53,7 +53,7 @@ class BaseApplication(object):
 
     # run the server
     def run(self):
-        print "run the server on:", self.ip, ":", self.port
+        print "run the server on:", self.ip if self.ip else "0.0.0.0", ":", self.port
         while True:
             conn, address = self.socket_server.accept()
             buffer_data = conn.recv(4096)
