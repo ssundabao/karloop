@@ -12,6 +12,7 @@ def parse_command_line(application, default):
         if "--port=" in arg:
             try:
                 default = arg.split("=")[1]
+                default = int(default)
             except Exception, e:
                 print e
                 print "listen port error"
