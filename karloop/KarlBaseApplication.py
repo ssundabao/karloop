@@ -7,6 +7,7 @@ import sys
 import datetime
 import threading
 import functools
+import logging
 
 from base_configure import base_settings
 from karloop.KarlBaseRequest import BaseRequest
@@ -84,7 +85,7 @@ class AsyncParseData(object):
             self.connection.sendall(response_data)
         except Exception, e:
             print e
-        print "connection close"
+        logging.info("connection close")
         self.connection.close()
 
 
