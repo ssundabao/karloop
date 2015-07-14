@@ -84,7 +84,7 @@ class AsyncParseData(object):
         try:
             self.connection.sendall(response_data)
         except Exception, e:
-            print e
+            logging.warning(e)
         logging.info("connection close")
         self.connection.close()
 
@@ -135,6 +135,7 @@ class ParseData(object):
         data = request.get_http_data()
         if url not in url_list:
             response = self.headers % (404, '"request url not found"', now_time, base_settings["host"])
+            response += "<p>404 ERROR</p>"
             return response
         handler = self.handlers[url]
         init_handler = handler(data, self.settings)
@@ -142,10 +143,12 @@ class ParseData(object):
             function = getattr(init_handler, method)
             result = function()
         except Exception, e:
-            print e
+            logging.warning(e)
             response = self.headers % (500, '"server error"', now_time, base_settings["host"])
+            response += "<p>500 ERROR!</p>"
             return response
         if result is None:
             response = self.headers % (405, '"request method not allowed"', now_time, base_settings["host"])
+            response += "<p>405 ERROR</p>"
             return response
         return result
