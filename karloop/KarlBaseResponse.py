@@ -26,13 +26,13 @@ class BaseResponse(object):
         self.settings = settings
 
     # set cookie to response
-    def set_cookie(self, key, value, expires_days=1):
+    def set_cookie(self, key, value, expires_days=1, path="/"):
         key = str(key)
         value = str(value)
         now_time = datetime.datetime.now()
         expires_days = now_time + datetime.timedelta(days=expires_days)
         expires_days = expires_days.strftime("%a, %d %b %Y %H:%M:%S GMT")
-        cookie_string = 'Set-Cookie: %s="%s"; expires=%s; Path=/\r\n' % (key, value, expires_days)
+        cookie_string = 'Set-Cookie: %s="%s"; expires=%s; Path=%s\r\n' % (key, value, expires_days, path)
         self.response_head = self.response_head.replace("Set-Cookie: server=run; path=/\r\n", cookie_string)
 
     # get the cookie from request
@@ -46,9 +46,9 @@ class BaseResponse(object):
         return cookie
 
     # set cookie encrypted by DES
-    def set_security_cookie(self, key, value):
+    def set_security_cookie(self, key, value, expires_days=1, path="/"):
         value = self.des.encode(value)
-        self.set_cookie(key, value)
+        self.set_cookie(key, value, expires_days, path)
 
     # get cookie encrypted by DES
     def get_security_cookie(self, key):
