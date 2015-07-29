@@ -85,6 +85,14 @@ class BaseResponse(object):
     def delete(self):
         pass
 
+    # header method
+    def header(self):
+        pass
+
+    # connect method
+    def connect(self):
+        pass
+
     # response to the request
     def response(self, body=None):
         status = 200
