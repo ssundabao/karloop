@@ -13,10 +13,10 @@ run these commands:
 
     # coding=utf-8
     from karloop.KarlBaseApplication import BaseApplication  
-    from karloop.KarlBaseResponse import BaseResponse  
+    from karloop.KarlBaseHandler import BaseHandler  
   
   
-    class HelloHandler(BaseResponse):  
+    class HelloHandler(BaseHandler):  
         def get(self):  
            return self.response("hello world")  
           
