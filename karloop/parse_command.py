@@ -4,6 +4,7 @@ __author__ = 'lizhihao'
 
 
 import sys
+import logging
 
 
 def parse_command_line(application, default):
@@ -14,7 +15,7 @@ def parse_command_line(application, default):
                 default = arg.split("=")[1]
                 default = int(default)
             except Exception, e:
-                print e
-                print "listen port error"
+                logging.error(e)
+                logging.error("listen port error")
                 exit()
     application.listen(default)

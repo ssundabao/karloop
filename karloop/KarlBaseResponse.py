@@ -22,8 +22,8 @@ class BaseResponse(object):
                              "Connection: keep-alive\r\n" \
                              "Content-Type: text/html;charset=UTF-8\r\n" \
                              "Set-Cookie: server=run; path=/\r\n"
-        self.data = data
-        self.settings = settings
+        self.data = data if data else None
+        self.settings = settings if settings else None
 
     # set cookie to response
     def set_cookie(self, key, value, expires_days=1, path="/"):
