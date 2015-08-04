@@ -6,6 +6,12 @@ __author__ = 'karl'
 class BaseRequest(object):
     # init method
     def __init__(self, data_list):
+        """ init method
+
+        :param data_list: data list of http data
+        :return: None
+        
+        """
         self.data_list = data_list
         self.convert_data_list = dict({})
         self.convert_data_list["method"] = data_list[0].split(" ")[0].lower()

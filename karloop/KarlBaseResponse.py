@@ -12,6 +12,12 @@ from karloop.base_configure import base_settings
 class BaseResponse(object):
     # init method
     def __init__(self, data, settings):
+        """ init method
+
+        :param data: data
+        :param settings: settings
+        :return:
+        """
         self.des = DES()
         cookie_code = base_settings["cookie_code"]
         self.des.input_key(cookie_code)

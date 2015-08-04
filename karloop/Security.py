@@ -12,9 +12,11 @@ from functools import partial
 
 
 class DES(object):  
-    """ 
+    """
+
     DES encrypt method
-    interface: input_key(s, base=10), encode(s), decode(s) 
+    interface: input_key(s, base=10), encode(s), decode(s)
+
     """  
     __ip = [  
         58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44, 36, 28, 20, 12, 4,   

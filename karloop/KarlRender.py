@@ -20,6 +20,12 @@ class Render(object):
 
     # read the template file
     def parse_template(self, value_dict=None):
+        """ parse the template file
+
+        :param value_dict: pass dict as refer
+        :return:
+
+        """
         now = datetime.datetime.now()
         now_time = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
         try:

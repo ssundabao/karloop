@@ -8,6 +8,13 @@ import logging
 
 
 def parse_command_line(application, default):
+    """ parse the command line
+
+    :param application: the application developer created
+    :param default: default port
+    :return:
+
+    """
     args = sys.argv
     for arg in args:
         if "--port=" in arg:

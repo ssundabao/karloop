@@ -48,6 +48,13 @@ class ParseStatic(object):
 
     # read the static files
     def parse_static(self, file_url, media_range=None):
+        """ parse static files
+
+        :param file_url: file's path
+        :param media_range: file range
+        :return:
+
+        """
         file_abstract_path = self.settings["static"] + file_url
         f = open(file_abstract_path)
         if media_range:
