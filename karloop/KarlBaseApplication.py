@@ -15,6 +15,12 @@ from karloop.KarlParseStatic import ParseStatic
 
 
 def async(function):
+    """ async methods
+
+    :param function: function's reference
+    :return: wrapper
+
+    """
     @functools.wraps(function)
     def wrapper(*args, **kwargs):
         new_thread = threading.Thread(target=function, args=args, kwargs=kwargs)
@@ -30,6 +36,13 @@ class BaseApplication(object):
 
     # init method
     def __init__(self, handlers=None, settings=None):
+        """
+
+        :param handlers: the application's settings about handlers
+        :param settings: the application's configuration
+        :return: None
+
+        """
         if handlers:
             self.handlers = handlers
         if settings:
@@ -46,6 +59,12 @@ class BaseApplication(object):
 
     # listen the port and set max request number
     def listen(self, port=None):
+        """ the application listen to the port that developer defined
+
+        :param port: listen port
+        :return: None
+
+        """
         if port:
             self.port = port
         base_settings["host"] = str(self.ip) + ":" + str(self.port)
@@ -54,6 +73,11 @@ class BaseApplication(object):
 
     # run the server
     def run(self):
+        """ run the application
+
+        :return: None
+
+        """
         print "run the server on:", self.ip if self.ip else "0.0.0.0", ":", self.port
         while True:
             conn, address = self.socket_server.accept()
@@ -64,6 +88,15 @@ class BaseApplication(object):
 
 class AsyncParseData(object):
     def __init__(self, connection, data, handlers, settings):
+        """ init method
+
+        :param connection: socket connection
+        :param data: http data
+        :param handlers: the application's settings about handlers
+        :param settings: the application's configuration
+        :return: None
+
+        """
         self.connection = connection
         self.data = data
         self.parse_data = ParseData(handlers=handlers, settings=settings)
@@ -112,12 +145,25 @@ class ParseData(object):
 
     # init method
     def __init__(self, handlers, settings):
+        """ init database
+
+        :param handlers: the application's settings about handlers
+        :param settings: the application's configuration
+        :return: None
+
+        """
         self.handlers = handlers
         self.parse_static = ParseStatic(settings=settings)
         self.settings = settings
 
     # parse the data from client
     def parse_data(self, buffer_data):
+        """ parse http data
+
+        :param buffer_data: http data
+        :return: result
+
+        """
         now = datetime.datetime.now()
         now_time = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
         if not buffer_data:
