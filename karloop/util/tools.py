@@ -21,7 +21,7 @@ def is_valid_ip_address(ip, regular_expression=None):
 
 
 def is_valid_mobile_phone(phone, regular_expression=None):
-    """check phone number
+    """ check phone number
 
     :param phone: cell phone number string
     :param regular_expression: the regular expression developer defined
@@ -35,7 +35,7 @@ def is_valid_mobile_phone(phone, regular_expression=None):
 
 
 def is_valid_mail(mail, regular_expression=None):
-    """check mail
+    """ check mail
 
     :param mail: e-mail address string
     :param regular_expression: the regular expression developer defined
