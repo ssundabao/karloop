@@ -6,6 +6,14 @@ __author__ = 'lizhihao'
 import re
 
 
+class RegularBaseUtils(object):
+    @staticmethod
+    def base(string, regular):
+        regex = re.compile(regular, re.IGNORECASE)
+        result = re.findall(regex, string)
+        return result
+
+
 def is_valid_ip_address(ip, regular_expression=None):
     """ check ip address
 
@@ -15,9 +23,7 @@ def is_valid_ip_address(ip, regular_expression=None):
 
     """
     regular = regular_expression if regular_expression else r'\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b'
-    regex = re.compile(regular, re.IGNORECASE)
-    is_ip = re.findall(regex, ip)
-    return is_ip
+    return RegularBaseUtils.base(ip, regular)
 
 
 def is_valid_mobile_phone(phone, regular_expression=None):
@@ -29,9 +35,7 @@ def is_valid_mobile_phone(phone, regular_expression=None):
 
     """
     regular = regular_expression if regular_expression else r'1\d{10}'
-    regex = re.compile(regular, re.IGNORECASE)
-    is_phone = re.findall(regex, phone)
-    return is_phone
+    return RegularBaseUtils.base(phone, regular)
 
 
 def is_valid_mail(mail, regular_expression=None):
@@ -43,9 +47,7 @@ def is_valid_mail(mail, regular_expression=None):
 
     """
     regular = regular_expression if regular_expression else r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b"
-    regex = re.compile(regular, re.IGNORECASE)
-    is_mail = re.findall(regex, mail)
-    return is_mail
+    return RegularBaseUtils.base(mail, regular)
 
 
 def is_valid_url(url, regular_expression=None):
@@ -57,6 +59,16 @@ def is_valid_url(url, regular_expression=None):
 
     """
     regular = regular_expression if regular_expression else r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
-    regex = re.compile(regular, re.IGNORECASE)
-    is_url = regex.findall(url)
-    return is_url
+    return RegularBaseUtils.base(url, regular)
+
+
+def is_valid_user(user_name, regular_expression=None):
+    """
+
+    :param user_name:
+    :param regular_expression:
+    :return:
+
+    """
+    regular = regular_expression if regular_expression else r"\b[a-zA-Z0-9._%+-]\b"
+    return RegularBaseUtils.base(user_name, regular)
