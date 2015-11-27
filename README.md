@@ -43,5 +43,4 @@ then open the web browser and go to "127.0.0.1:8888/hello", you will see the hel
 
 # Notice
 This framework has been used on the linux version of <a href="http://www.cubebackup.com"> CubeBackup for Google Apps</a>, which is a local backup solution for Google Apps data.   
-There are probably some bugs about stream video on windows operating system
 If you find bugs or know how to fix them,  please send a message to karlvorndoenitz@gmail.com,special thanks.   
