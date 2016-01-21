@@ -1,11 +1,12 @@
 # coding=utf-8
 
-__author__ = 'karl'
-
 import sys
 import datetime
+
 from Security import DES
 from karloop.base_configure import base_settings
+
+__author__ = 'karl'
 
 
 class ParseStatic(object):

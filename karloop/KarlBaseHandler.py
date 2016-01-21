@@ -1,11 +1,10 @@
 # coding=utf-8
 
-__author__ = 'lizhihao'
-
-
 import logging
 from cache_memery.cache_memery import cache
 from KarlBaseResponse import BaseResponse
+
+__author__ = 'lizhihao'
 
 
 class BaseHandler(BaseResponse):

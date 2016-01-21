@@ -1,12 +1,12 @@
 # coding=utf-8
 
-__author__ = 'karl'
-
 import datetime
 
 from karloop.Security import DES
 from karloop.KarlRender import Render
 from karloop.base_configure import base_settings
+
+__author__ = 'karl'
 
 
 class BaseResponse(object):

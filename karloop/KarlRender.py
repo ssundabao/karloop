@@ -1,10 +1,10 @@
 # coding=utf-8
 
-__author__ = 'karl'
-
 import datetime
 import re
 from karloop.base_configure import base_settings
+
+__author__ = 'karl'
 
 
 class Render(object):

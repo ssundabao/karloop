@@ -1,10 +1,10 @@
 # coding=utf-8
 
-__author__ = 'lizhihao'
-
 
 import sys
 import logging
+
+__author__ = 'lizhihao'
 
 
 def parse_command_line(application, default):

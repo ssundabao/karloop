@@ -1,14 +1,12 @@
 # coding=utf-8
 
-__author__ = 'karl'
+from functools import partial
 
+__author__ = 'karl'
 
 '''
 use DES to encrypt the data
 '''
-
-
-from functools import partial
 
 
 class DES(object):  

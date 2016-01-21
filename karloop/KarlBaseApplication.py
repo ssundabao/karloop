@@ -1,7 +1,5 @@
 # coding=utf-8
 
-__author__ = 'karl'
-
 import socket
 import sys
 import datetime
@@ -12,6 +10,8 @@ import logging
 from base_configure import base_settings
 from karloop.KarlBaseRequest import BaseRequest
 from karloop.KarlParseStatic import ParseStatic
+
+__author__ = 'karl'
 
 
 def async(function):

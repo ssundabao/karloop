@@ -1,9 +1,8 @@
 # coding=utf-8
 
-__author__ = 'lizhihao'
-
-
 import re
+
+__author__ = 'lizhihao'
 
 
 class RegularBaseUtils(object):
