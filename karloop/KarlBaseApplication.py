@@ -1,7 +1,8 @@
 # coding=utf-8
 
-import socket
 import sys
+import asyncore
+import socket
 import datetime
 import threading
 import functools
@@ -28,10 +29,48 @@ def async(function):
     return wrapper
 
 
+class EchoHandler(asyncore.dispatcher):
+    def __init__(self, client, addr, server, handlers, settings):
+        asyncore.dispatcher.__init__(self, client)
+        self.handlers = handlers
+        self.settings = settings
+        self.async_parse_data = None
+
+    def handle_read(self):
+        data = self.recv(1024)
+        self.async_parse_data = AsyncParseData(self, data, self.handlers, self.settings)
+        self.handle_write()
+
+    def writable(self):
+        return False
+
+    def handle_write(self):
+        self.async_parse_data.run()
+
+    def handle_close(self):
+        self.close()
+
+
+class HTTPServer(asyncore.dispatcher):
+    def __init__(self, addr, handlers, settings):
+        self.handlers = handlers
+        self.settings = settings
+        self.addr = addr
+        asyncore.dispatcher.__init__(self)
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.set_reuse_addr()
+        self.bind(self.addr)
+        self.listen(5)
+        print 'Listening on port %d' % addr[1]
+
+    def handle_accept(self):
+        (client, addr) = self.accept()
+        print 'Request from %s:%s' % (addr[0], addr[1])
+        EchoHandler(client, addr, self, self.handlers, self.settings)
+
+
 class BaseApplication(object):
-
     settings = {}
-
     handlers = {}
 
     # init method
@@ -68,8 +107,6 @@ class BaseApplication(object):
         if port:
             self.port = port
         base_settings["host"] = str(self.ip) + ":" + str(self.port)
-        self.socket_server.bind((self.ip, self.port))
-        self.socket_server.listen(9999)
 
     # run the server
     def run(self):
@@ -79,11 +116,8 @@ class BaseApplication(object):
 
         """
         print "run the server on:", self.ip if self.ip else "0.0.0.0", ":", self.port
-        while True:
-            conn, address = self.socket_server.accept()
-            buffer_data = conn.recv(4096)
-            async_parse_data = AsyncParseData(conn, buffer_data, self.handlers, self.settings)
-            async_parse_data.run()
+        HTTPServer((self.ip, self.port), self.handlers, self.settings)
+        asyncore.loop()
 
 
 class AsyncParseData(object):
@@ -101,7 +135,7 @@ class AsyncParseData(object):
         self.data = data
         self.parse_data = ParseData(handlers=handlers, settings=settings)
 
-    @async
+    # @async
     def run(self):
         response_data = self.parse_data.parse_data(buffer_data=self.data)
         response_data_size = sys.getsizeof(response_data)
@@ -111,15 +145,14 @@ class AsyncParseData(object):
         else:
             response_url = ""
         if response_url.endswith(".mp3") or response_url.endswith(".ogg") or response_url.endswith(".mp4"):
-            self.connection.settimeout(None)
+            self.connection.socket.settimeout(None)
         else:
-            self.connection.settimeout(lock_time + 5)
+            self.connection.socket.settimeout(lock_time + 5)
         try:
-            self.connection.sendall(response_data)
+            self.connection.socket.sendall(response_data)
+            self.connection.socket.shutdown(socket.SHUT_RD)
         except Exception, e:
             logging.warning(e)
-        logging.info("connection close")
-        self.connection.close()
 
 
 class ParseData(object):
