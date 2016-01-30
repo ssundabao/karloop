@@ -135,7 +135,6 @@ class AsyncParseData(object):
         self.data = data
         self.parse_data = ParseData(handlers=handlers, settings=settings)
 
-    # @async
     def run(self):
         response_data = self.parse_data.parse_data(buffer_data=self.data)
         response_data_size = sys.getsizeof(response_data)
