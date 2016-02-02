@@ -143,13 +143,13 @@ class AsyncParseData(object):
             response_url = self.data.split("\r\n")[0].split(" ")[1]
         else:
             response_url = ""
-        if response_url.endswith(".mp3") or response_url.endswith(".ogg") or response_url.endswith(".mp4"):
-            self.connection.socket.settimeout(None)
-        else:
-            self.connection.socket.settimeout(lock_time + 5)
         try:
+            if response_url.endswith(".mp3") or response_url.endswith(".ogg") or response_url.endswith(".mp4"):
+                self.connection.socket.settimeout(None)
+            else:
+                self.connection.socket.settimeout(lock_time + 5)
             self.connection.socket.sendall(response_data)
-            self.connection.socket.shutdown(socket.SHUT_RD)
+            self.connection.socket.shutdown(socket.SHUT_RDWR)
         except Exception, e:
             logging.warning(e)
 
