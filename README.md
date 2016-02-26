@@ -12,7 +12,7 @@ run these commands:
 ## hello world
 
     # coding=utf-8
-    from karloop.KarlBaseApplication import BaseApplication  
+    from karloop.KarlBaseApplication import SingleThreadApplication  
     from karloop.KarlBaseHandler import BaseHandler  
   
   
@@ -26,7 +26,7 @@ run these commands:
     }
 
 
-    class HelloApplication(BaseApplication):
+    class HelloApplication(SingleThreadApplication):
         def __init__(self):
             super(HelloApplication, self).__init__(handlers=handlers)
             

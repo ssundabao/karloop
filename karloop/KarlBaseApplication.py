@@ -98,6 +98,16 @@ class BaseApplication(object):
 
     # listen the port and set max request number
     def listen(self, port=None):
+        pass
+
+    # run the server
+    def run(self):
+        pass
+
+
+class SingleThreadApplication(BaseApplication):
+    # listen the port and set max request number
+    def listen(self, port=None):
         """ the application listen to the port that developer defined
 
         :param port: listen port
@@ -118,6 +128,32 @@ class BaseApplication(object):
         print "run the server on:", self.ip if self.ip else "0.0.0.0", ":", self.port
         HTTPServer((self.ip, self.port), self.handlers, self.settings)
         asyncore.loop()
+
+
+class MultiThreadApplication(BaseApplication):
+    # listen the port and set max request number
+    def listen(self, port=None):
+        """ the application listen to the port that developer defined
+        :param port: listen port
+        :return: None
+        """
+        if port:
+            self.port = port
+        base_settings["host"] = str(self.ip) + ":" + str(self.port)
+        self.socket_server.bind((self.ip, self.port))
+        self.socket_server.listen(9999)
+
+    # run the server
+    def run(self):
+        """ run the application
+        :return: None
+        """
+        print "run the server on:", self.ip if self.ip else "0.0.0.0", ":", self.port
+        while True:
+            conn, address = self.socket_server.accept()
+            buffer_data = conn.recv(4096)
+            async_parse_data = AsyncParseData(conn, buffer_data, self.handlers, self.settings)
+            async_parse_data.thread_run()
 
 
 class AsyncParseData(object):
@@ -152,6 +188,26 @@ class AsyncParseData(object):
             self.connection.socket.shutdown(socket.SHUT_RDWR)
         except Exception, e:
             logging.warning(e)
+
+    @async
+    def thread_run(self):
+        response_data = self.parse_data.parse_data(buffer_data=self.data)
+        response_data_size = sys.getsizeof(response_data)
+        lock_time = response_data_size / (1024 * 256)
+        if len(self.data) > 4:
+            response_url = self.data.split("\r\n")[0].split(" ")[1]
+        else:
+            response_url = ""
+        if response_url.endswith(".mp3") or response_url.endswith(".ogg") or response_url.endswith(".mp4"):
+            self.connection.settimeout(None)
+        else:
+            self.connection.settimeout(lock_time + 5)
+        try:
+            self.connection.sendall(response_data)
+        except Exception, e:
+            logging.warning(e)
+        logging.info("connection close")
+        self.connection.close()
 
 
 class ParseData(object):
