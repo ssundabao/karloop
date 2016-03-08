@@ -46,12 +46,13 @@ configure the handlers use a dictionary settings:
         "cookie_code": "this_is_an_example"
     }
     
-move the static files (as *.css *.js *.jpg etc) to the folder named static.  
+move the static files (as *.css *.js *.jpg etc) to the folder named static.
 move the html template files to the folder named template.
 # application
 create web application  
 
-    KarlBaseApplication.BaseApplication
+    KarlBaseApplication.SingleThreadApplication  # single thread async application
+    KarlBaseApplication.MultiThreadApplication  # multipy threads async application
 
 ## handlers
   
