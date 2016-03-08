@@ -3,7 +3,7 @@ an python web framework like webpy and tornado
 
 # install
 download the package or check out the project  
-the cd to the project folder  
+then cd to the project folder  
 run these commands:  
 
     sudo python setup.py install  
