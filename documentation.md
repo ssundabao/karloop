@@ -22,7 +22,15 @@ use this method to set security cookie
 use this method to get security cookie
 ## clear_cookie
     KarlBaseResponse.BaseResponse.clear_cookie(key)
-use this method to clear cookie
+use this method to clear cookie  
+# cache
+operate the cache  
+## set_cache
+    KarlBaseHandler.set_cache(key, value)
+use this method to set cookie
+## get_cache
+    KarlBaseHandler.get_cache(key)
+use this method to get cookie, if the key is not in cache, it will return None
 # templates
 pass object, list, dict and string.
 ## render
@@ -33,7 +41,8 @@ pass a dict the template, the value of the dict can be dict, list, string or obj
     KarlBaseResponse.BaseResponse.get_argument(key, default)
 get the key's value.
 ## response
-response to web browser
+    KarlBaseResponse.BaseResponse.response(data)
+response the data for web client's request
 # settings
 configure the handlers use a dictionary settings:  
 
