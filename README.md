@@ -40,6 +40,8 @@ run these commands:
     python index.py
 then open the web browser and go to "127.0.0.1:8888/hello", you will see the hello world.
 
+# Documentation
+[click here](https://github.com/karloop/karloop/blob/master/documentation.md)
 
 # Notice
 This framework has been used on the linux version of <a href="http://www.cubebackup.com"> CubeBackup for Google Apps</a>, which is a local backup solution for Google Apps data.   
