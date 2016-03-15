@@ -4,7 +4,7 @@ operate http headers
     KarlBaseResponse.BaseResponse.set_header(value)  
 use this method to set http header  
 ## add_header
-    KarlBaseResponse.BaseResponse.add_header(value)  
+    KarlBaseResponse.BaseResponse.add_header(key, value)  
 use this method to add http header  
 # cookies
 operate cookie
