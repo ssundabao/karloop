@@ -1,5 +1,6 @@
 # coding=utf-8
 
+import json
 import logging
 from cache_memery.cache_memery import cache
 from KarlBaseResponse import BaseResponse
@@ -30,3 +31,9 @@ class BaseHandler(BaseResponse):
         except Exception, e:
             logging.error(e)
             return None
+
+    def response_as_json(self, body=None, ensure_ascii=False):
+        if not (isinstance(body, dict) and isinstance(ensure_ascii, bool)):
+            raise TypeError
+        response_data = json.dumps(body, ensure_ascii=ensure_ascii)
+        return self.response(response_data)
