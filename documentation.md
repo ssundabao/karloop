@@ -57,6 +57,11 @@ configure the handlers use a dictionary settings:
     
 move the static files (as *.css *.js *.jpg etc) to the folder named static.
 move the html template files to the folder named template.
+# parse_command_line
+parse command line to get the port  
+
+    parse_command.parse_command_line(application, default_port)
+
 # application
 create web application  
 
