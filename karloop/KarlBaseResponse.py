@@ -31,6 +31,14 @@ class BaseResponse(object):
         self.data = data if data else None
         self.settings = settings if settings else None
 
+    # put http message in this class
+    def __put_http_message(self, http_message):
+        self.http_message = http_message
+
+    # get http message
+    def get_http_message(self):
+        return self.http_message
+
     # set cookie to response
     def set_cookie(self, key, value, expires_days=1, path="/"):
         key = str(key)
