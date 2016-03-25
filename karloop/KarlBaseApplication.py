@@ -273,7 +273,7 @@ class ParseData(object):
             return response
         handler = self.handlers[url]
         init_handler = handler(data, self.settings)
-        init_handler.__put_http_message(request.get_http_data())
+        init_handler.put_http_message(request.get_http_data())
         try:
             function = getattr(init_handler, method)
             result = function()
