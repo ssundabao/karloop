@@ -108,6 +108,10 @@ class BaseResponse(object):
     def connect(self):
         pass
 
+    # trace method
+    def trace(self):
+        return self.response(self.get_http_message())
+
     # response to the request
     def response(self, body=None):
         status = 200
