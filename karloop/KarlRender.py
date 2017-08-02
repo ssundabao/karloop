@@ -1,10 +1,10 @@
 # coding=utf-8
 
-__author__ = 'karl'
-
 import datetime
 import re
 from karloop.base_configure import base_settings
+
+__author__ = 'karl'
 
 
 class Render(object):
@@ -20,17 +20,23 @@ class Render(object):
 
     # read the template file
     def parse_template(self, value_dict=None):
+        """ parse the template file
+
+        :param value_dict: pass dict as refer
+        :return:
+
+        """
         now = datetime.datetime.now()
         now_time = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
         try:
-            f = open(self.template)
+            f = open(self.template, "rb")
             template_data = f.read()
             f.close()
         except IOError:
-            header = self.header % (500, "template error", now_time)
+            header = self.header % (500, "template error", base_settings["host"], now_time)
             return header
         if not value_dict:
-            header = self.header % (200, "OK", now_time)
+            header = self.header % (200, "OK", base_settings["host"], now_time)
             data = header + template_data
             return data
         param_list = re.findall(r"\{\{(.+?)\}\}", template_data)

@@ -6,7 +6,14 @@ __author__ = 'karl'
 class BaseRequest(object):
     # init method
     def __init__(self, data_list):
+        """ init method
+
+        :param data_list: data list of http data
+        :return: None
+        
+        """
         self.data_list = data_list
+        self.http_message = "\r\n".join(data_list)
         self.convert_data_list = dict({})
         self.convert_data_list["method"] = data_list[0].split(" ")[0].lower()
         self.convert_data_list["url"] = data_list[0].split(" ")[1].split("?")[0]
@@ -16,6 +23,10 @@ class BaseRequest(object):
                 self.convert_data_list["cookie"] = data.split("Cookie: ")[1]
             if "Range: bytes=" in data:
                 self.convert_data_list["content_range"] = data.replace("Range: bytes=", "").split("-")[0]
+
+    # get http message
+    def get_http_message(self):
+        return self.http_message
 
     # get content range
     def get_content_range(self):

@@ -1,20 +1,20 @@
 # coding=utf-8
 
-__author__ = 'karl'
+from functools import partial
 
+__author__ = 'karl'
 
 '''
 use DES to encrypt the data
 '''
 
 
-from functools import partial
-
-
 class DES(object):  
-    """ 
+    """
+
     DES encrypt method
-    interface: input_key(s, base=10), encode(s), decode(s) 
+    interface: input_key(s, base=10), encode(s), decode(s)
+
     """  
     __ip = [  
         58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44, 36, 28, 20, 12, 4,   
@@ -186,7 +186,7 @@ class DES(object):
   
 if __name__ == '__main__':  
     d = DES()  
-    d.input_key('123456789')
+    d.input_key("123456789")
     s = "/static/hello.js"
     a = d.encode(s)  
     print a

@@ -1,36 +1,53 @@
 # coding=utf-8
 
-__author__ = 'karl'
-
 import datetime
 
 from karloop.Security import DES
 from karloop.KarlRender import Render
 from karloop.base_configure import base_settings
 
+__author__ = 'karl'
+
 
 class BaseResponse(object):
     # init method
     def __init__(self, data, settings):
+        """ init method
+
+        :param data: data
+        :param settings: settings
+        :return:
+        """
         self.des = DES()
-        self.des.input_key('123456789')
+        cookie_code = base_settings["cookie_code"]
+        self.des.input_key(cookie_code)
         self.response_head = "HTTP/1.1 %s %s\r\n" \
                              "Host: %s\r\n" \
                              "Date: %s\r\n" \
+                             "Web-Server: Tornado\r\n" \
                              "Connection: keep-alive\r\n" \
                              "Content-Type: text/html;charset=UTF-8\r\n" \
                              "Set-Cookie: server=run; path=/\r\n"
-        self.data = data
-        self.settings = settings
+        self.data = data if data else None
+        self.settings = settings if settings else None
+        self.http_message = ""
+
+    # put http message in this class
+    def put_http_message(self, http_message):
+        self.http_message = http_message
+
+    # get http message
+    def get_http_message(self):
+        return self.http_message
 
     # set cookie to response
-    def set_cookie(self, key, value, expires_days=1):
+    def set_cookie(self, key, value, expires_days=1, path="/"):
         key = str(key)
         value = str(value)
         now_time = datetime.datetime.now()
         expires_days = now_time + datetime.timedelta(days=expires_days)
         expires_days = expires_days.strftime("%a, %d %b %Y %H:%M:%S GMT")
-        cookie_string = 'Set-Cookie: %s="%s"; expires=%s; Path=/\r\n' % (key, value, expires_days)
+        cookie_string = 'Set-Cookie: %s="%s"; expires=%s; Path=%s\r\n' % (key, value, expires_days, path)
         self.response_head = self.response_head.replace("Set-Cookie: server=run; path=/\r\n", cookie_string)
 
     # get the cookie from request
@@ -44,9 +61,9 @@ class BaseResponse(object):
         return cookie
 
     # set cookie encrypted by DES
-    def set_security_cookie(self, key, value):
+    def set_security_cookie(self, key, value, expires_days=1, path="/"):
         value = self.des.encode(value)
-        self.set_cookie(key, value)
+        self.set_cookie(key, value, expires_days, path)
 
     # get cookie encrypted by DES
     def get_security_cookie(self, key):
@@ -54,9 +71,9 @@ class BaseResponse(object):
         return self.des.decode(cookie)
 
     # get the argument
-    def get_argument(self, key):
+    def get_argument(self, key, default):
         if key not in self.data["parameter"]:
-            return ""
+            return default
         return self.data["parameter"][key]
 
     # get method
@@ -83,6 +100,18 @@ class BaseResponse(object):
     def delete(self):
         pass
 
+    # header method
+    def header(self):
+        pass
+
+    # connect method
+    def connect(self):
+        pass
+
+    # trace method
+    def trace(self):
+        return self.response(self.get_http_message())
+
     # response to the request
     def response(self, body=None):
         status = 200
@@ -94,9 +123,14 @@ class BaseResponse(object):
         response_data += body
         return response_data
 
-    # set head
-    def set_head(self, value):
+    # set header
+    def set_header(self, value):
         self.response_head = self.response_head.replace("text/html;charset=UTF-8", value)
+
+    # add header
+    def add_header(self, key, value):
+        header_add = "%s: %s\r\n" % (key, value)
+        self.response_head = self.response_head.replace("Web-Server: Tornado\r\n", "Web-Server: Tornado\r\n"+header_add)
 
     # render method
     def render(self, template_path, parameter_dit=None):

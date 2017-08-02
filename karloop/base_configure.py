@@ -6,5 +6,6 @@ __author__ = 'karl'
 base_settings = {
     "ip": "127.0.0.1",
     "port": "8008",
-    "host": "127.0.0.1:8008"
+    "host": "127.0.0.1:8008",
+    "cookie_code": "123456789"
 }
